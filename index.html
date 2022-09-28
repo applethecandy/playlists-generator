@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор обложек</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+</head>
+
+<style>
+@font-face {
+    font-family: Intro;
+    src: url('Intro.otf');
+}
+</style>
+
+<body>
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+        <div
+            class="relative w-full bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+            <div class="mx-auto max-w-xl">
+                <p class="text-center text-2xl font-bold">Генератор обложек</p>
+                <div class="divide-y divide-gray-300/50">
+                    <div>
+                        <div>
+                            <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Название
+                                плейлиста</label>
+                            <div>
+                                <textarea id="title" onKeyUp="generateAvatar()"
+                                    class="flex w-full items-center justify-center rounded border px-2 py-2 text-sm focus:border-gray-400 focus:ring-transparent">Playlist</textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Цвет плейлиста</label>
+                            <div class="flex justify-center w-full">
+                                <div id="picker" onmousemove="generateAvatar()" onpointermove="generateAvatar()"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mt-4">
+                            <div class="rounded-2xl overflow-clip h-[300px] w-[300px]">
+                                <a id="download-link" download="generated-avatar">
+                                    <img id="avatar" alt="Avatar" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+var colorPicker = new iro.ColorPicker('#picker', {
+    layoutDirection: 'horizontal',
+    color: '#9378ff',
+    width: 280
+});
+
+function generateAvatar() {
+    const fontSize = 64;
+    const lineHeight = fontSize + 8;
+    const font = 'Intro';
+    const imageSize = 600;
+
+    const bgColor = colorPicker.color.hexString;
+    const textarea = document.querySelector('#title');
+
+    textlines = textarea.value.toUpperCase().split('\n')
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = imageSize;
+    canvas.height = imageSize;
+
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = fontSize + "px " + font;
+    ctx.fillStyle = textColor(bgColor);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle"
+    textlines.forEach((line, index) => {
+        ctx.fillText(line, canvas.width / 2, (canvas.height - lineHeight * (textlines.length - 1)) / 2 + (
+            lineHeight * index), imageSize / 100 * 94);
+    });
+
+    document.getElementById("avatar").src = canvas.toDataURL("image/png");
+    document.getElementById('download-link').href = document.getElementById("avatar").src;
+}
+
+
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    generateAvatar();
+    document.getElementById('download-link').href = document.getElementById("avatar").src;
+
+});
+
+function textColor(bgColor) {
+    var output = runNetwork(hexToRgb(bgColor));
+    console.log(output.black)
+    if (output.black > .5) {
+        return '#000000aa';
+    }
+    return '#ffffff';
+}
+
+function runNetwork(input) {
+    var net = {
+        "layers": [{
+            "r": {},
+            "g": {},
+            "b": {}
+        }, {
+            "0": {
+                "bias": 39.12504303077149,
+                "weights": {
+                    "r": -3.964295802003962,
+                    "g": -37.69521732215921,
+                    "b": -8.534465262664076
+                }
+            },
+            "1": {
+                "bias": 13.496358946372162,
+                "weights": {
+                    "r": -1.8606375864876852,
+                    "g": -19.356046160385144,
+                    "b": 8.094730837409243
+                }
+            },
+            "2": {
+                "bias": 12.170390085955919,
+                "weights": {
+                    "r": -0.3521603424563888,
+                    "g": -19.658267901662136,
+                    "b": 3.786783142631841
+                }
+            }
+        }, {
+            "black": {
+                "bias": 14.297193043331639,
+                "weights": {
+                    "0": -15.298315841144552,
+                    "1": -10.816551385641496,
+                    "2": -9.288530126202694
+                }
+            }
+        }],
+        "outputLookup": true,
+        "inputLookup": true
+    };
+
+    for (var i = 1; i < net.layers.length; i++) {
+        var layer = net.layers[i];
+        var output = {};
+
+        for (var id in layer) {
+            var node = layer[id];
+            var sum = node.bias;
+
+            for (var iid in node.weights) {
+                sum += node.weights[iid] * input[iid];
+            }
+            output[id] = (1 / (1 + Math.exp(-sum)));
+        }
+        input = output;
+    }
+    return output;
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16) / 255,
+        g: parseInt(result[2], 16) / 255,
+        b: parseInt(result[3], 16) / 255
+    } : null;
+}
+</script>
