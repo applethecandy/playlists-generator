@@ -12,6 +12,10 @@ I used Tailwind, Iso.js (Color Picker) и Brain.js (Choosing a text color)
 
 The text color is generated depending on the background color, priority is given to white text color
 
+Supports unicode
+
 Cover size - 600 x 600 px.
 
 [Demo](https://smolyakov.dev/playlists-generator/)
+
+![Result](image.png)
