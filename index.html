@@ -34,9 +34,9 @@
                             </div>
                         </div>
                         <div>
-                            <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Цвет плейлиста</label>
+                            <label class="text-md mt-4 mb-1 flex w-full rounded px-2">Цвет плейлиста</label>
                             <div class="flex justify-center w-full">
-                                <div id="picker" onmousemove="generateAvatar()" onpointermove="generateAvatar()"></div>
+                                <div id="picker"></div>
                             </div>
                         </div>
 
@@ -98,7 +98,8 @@
         document.getElementById('download-link').href = document.getElementById("avatar").src;
     }
 
-
+    document.querySelector('#picker').addEventListener('mousemove', pickerHandler);
+    document.querySelector('#picker').addEventListener('pointermove', pickerHandler);
 
     window.addEventListener("DOMContentLoaded", (event) => {
         generateAvatar();
@@ -106,9 +107,13 @@
 
     });
 
+    function pickerHandler(e) {
+        if (e.which == 1 && e.buttons == 1) return generateAvatar();
+    }
+
     function getLighterColor(color) {
         let hsl = hexToHSL(color);
-        hsl[2] += (100 - hsl[2]) / 2.5;
+        hsl[2] += (100 - hsl[2]) / ((100 - hsl[2]) / 12);
         if (hsl[2] >= 100) hsl[2] = 100;
         return HSLToHex(hsl[0], hsl[1], hsl[2]);
     }
