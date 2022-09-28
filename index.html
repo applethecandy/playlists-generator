@@ -20,11 +20,12 @@
 <body>
     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
         <div
-            class="relative w-full bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-            <div class="mx-auto max-w-xl">
-                <p class="text-center text-2xl font-bold">Генератор обложек</p>
-                <div class="divide-y divide-gray-300/50">
-                    <div>
+            class="relative w-full bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-xl md:max-w-3xl sm:rounded-lg sm:px-10">
+            <div class="mx-auto">
+                <p class="text-center text-2xl font-bold md:mb-2">Генератор обложек</p>
+
+                <div class="grid md:grid-cols-2 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-300/50">
+                    <div class="min-w-[320px] mb-4 sm:mt-0">
                         <div>
                             <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Название
                                 плейлиста</label>
@@ -39,12 +40,18 @@
                                 <div id="picker"></div>
                             </div>
                         </div>
-
-                        <div class="flex justify-center mt-4">
+                    </div>
+                    <div class="md:flex md:items-center md:justify-center sm:pt-0 pt-1">
+                        <div class="flex justify-center items-center flex-col mt-4">
                             <div class="rounded-2xl overflow-clip h-[300px] w-[300px]">
                                 <a id="download-link" download="generated-avatar">
                                     <img id="avatar" alt="Avatar" />
                                 </a>
+                            </div>
+                            <div class="mt-4 font-['Intro'] text-gray-500 cursor-default">
+                                <a class="hover:text-black"
+                                    href="https://github.com/applethecandy/playlists-generator">github</a> @
+                                <a class="hover:text-black" href="https://smolyakov.dev">smolyakov.dev</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +107,7 @@
 
     document.querySelector('#picker').addEventListener('mousemove', pickerHandler);
     document.querySelector('#picker').addEventListener('pointermove', pickerHandler);
-    document.querySelector('#picker').addEventListener('touch', () => { generateAvatar() });
+    document.querySelector('#picker').addEventListener('touchstart', () => { generateAvatar(); });
     document.querySelector('#picker').addEventListener('click', () => { generateAvatar() });
     document.querySelector('#title').addEventListener('keyup', () => { generateAvatar() });
 
@@ -111,7 +118,7 @@
     });
 
     function pickerHandler(e) {
-        if (e.which == 1 && e.buttons == 1) return generateAvatar();
+        if ((e.which == 1 && e.buttons == 1) || e.type == 'pointermove') return generateAvatar();
     }
 
     function getLighterColor(color) {
