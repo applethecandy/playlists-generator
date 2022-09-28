@@ -2,9 +2,9 @@
   Playlist cover online generation
 </h1>
 
-<p align="center">
-  [Russian](readme_ru.md) | [English](readme.md)
-</p>
+[Russian](readme_ru.md)
+
+[English](readme.md)
 
 I use colored covers for music playlists. The color of the cover characterizes the mood conveyed by the playlist. This page has been created to simplify the process of creating covers.
 
