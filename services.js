@@ -16,16 +16,20 @@ if (token = window.localStorage.getItem('spotify_token')) {
         })
         .then((data) => {
             if (data['error'] !== undefined) return window.localStorage.removeItem('spotify_token');
+            let user = data.href.replace(/.*\/users\/(.*?)\/.*/, '$1');
+            console.log(data)
             let spotify_playlists = document.querySelector('.spotify');
             spotify_playlists.classList.remove('hidden');
             data.items.forEach(e => {
-                let playlist = document.createElement('p');
-                playlist.textContent = e.name;
-                playlist.dataset.id = e.id;
-                playlist.classList.add('hover:text-black');
-                playlist.classList.add('cursor-pointer');
-                spotify_playlists.querySelector('div').appendChild(playlist);
-                playlist.addEventListener('click', getSpotifyPlaylist)
+                if (e.owner.id == user) {
+                    let playlist = document.createElement('p');
+                    playlist.textContent = e.name;
+                    playlist.dataset.id = e.id;
+                    playlist.classList.add('hover:text-black');
+                    playlist.classList.add('cursor-pointer');
+                    spotify_playlists.querySelector('div').appendChild(playlist);
+                    playlist.addEventListener('click', getSpotifyPlaylist)
+                }
             });
         });
 }
