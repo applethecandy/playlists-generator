@@ -8,6 +8,7 @@
     <title>Генератор обложек</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <script defer src="./services.js"></script>
 </head>
 
 <style>
@@ -48,13 +49,29 @@
                                     <img id="avatar" alt="Avatar" />
                                 </a>
                             </div>
-                            <div class="mt-4 font-['Intro'] text-gray-500 cursor-default">
-                                <a class="hover:text-black"
-                                    href="https://github.com/applethecandy/playlists-generator">github</a> @
-                                <a class="hover:text-black" href="https://smolyakov.dev">smolyakov.dev</a>
+                            <div class="mt-4 font-['Intro'] text-gray-500 cursor-default flex flex-col items-center">
+                                <div>
+                                    <a class="hover:text-black"
+                                        href="https://github.com/applethecandy/playlists-generator">github</a> @
+                                    <a class="hover:text-black" href="https://smolyakov.dev">smolyakov.dev</a>
+                                </div>
+                                <div>
+                                    <a class="spotify-login hover:text-black"
+                                        href="https://accounts.spotify.com/authorize?response_type=token&client_id=c8ec8ae5f24c40ffb37859696810752d&redirect_uri=https://smolyakov.dev/playlists-generator&scope=ugc-image-upload,playlist-modify-private,playlist-modify-public,playlist-read-private">
+                                        login to spotify</a>
+                                </div>
+                                <div class="spotify-submit font-sans hidden">
+                                    <button
+                                        class="mt-4 flex w-full items-center justify-center rounded bg-yellow-500 px-2 py-3 text-sm font-bold uppercase text-white hover:bg-yellow-400">
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="spotify hidden md:pt-0 pt-4">
+                    Плейлисты Spotify:
+                    <div class="flex gap-x-8 flex-wrap text-gray-500"></div>
                 </div>
             </div>
         </div>
@@ -101,8 +118,9 @@
                 lineHeight * index), imageSize / 100 * 94);
         });
 
-        document.getElementById("avatar").src = canvas.toDataURL("image/png");
+        document.getElementById("avatar").src = canvas.toDataURL("image/jpeg");
         document.getElementById('download-link').href = document.getElementById("avatar").src;
+        return canvas.toDataURL("image/jpeg");
     }
 
     document.querySelector('#picker').addEventListener('mousemove', pickerHandler);
