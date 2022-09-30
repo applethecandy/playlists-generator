@@ -14,7 +14,9 @@ The text color is generated depending on the background color, priority is given
 
 Supports unicode
 
-Cover size - 600 x 600 px.
+Spotify integration
+
+Cover size - 600 x 600 px
 
 [Demo](https://smolyakov.dev/playlists-generator/)
 

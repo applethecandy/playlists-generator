@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор обложек</title>
+    <title>Playlist cover generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
     <script defer src="./services.js"></script>
@@ -23,20 +23,19 @@
         <div
             class="relative w-full bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-xl md:max-w-3xl sm:rounded-lg sm:px-10">
             <div class="mx-auto">
-                <p class="text-center text-2xl font-bold md:mb-2">Генератор обложек</p>
+                <p class="text-center text-2xl font-bold md:mb-2">Playlist cover generator</p>
 
                 <div class="grid md:grid-cols-2 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-300/50">
                     <div class="min-w-[320px] mb-4 sm:mt-0">
                         <div>
-                            <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Название
-                                плейлиста</label>
+                            <label for="title" class="text-md mt-4 mb-1 flex w-full rounded px-2">Playlist name</label>
                             <div>
                                 <textarea id="title"
                                     class="flex w-full items-center justify-center rounded border px-2 py-2 text-sm focus:border-gray-400 focus:ring-transparent">Playlist</textarea>
                             </div>
                         </div>
                         <div>
-                            <label class="text-md mt-4 mb-1 flex w-full rounded px-2">Цвет плейлиста</label>
+                            <label class="text-md mt-4 mb-1 flex w-full rounded px-2">Playlist color</label>
                             <div class="flex justify-center w-full">
                                 <div id="picker"></div>
                             </div>
@@ -70,7 +69,7 @@
                     </div>
                 </div>
                 <div class="spotify hidden md:pt-0 pt-4">
-                    Плейлисты Spotify:
+                    Spotify playlists:
                     <div class="flex gap-x-8 flex-wrap text-gray-500"></div>
                 </div>
             </div>

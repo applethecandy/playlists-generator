@@ -14,7 +14,9 @@
 
 Поддерживает юникод
 
-Размер обложки - 600 x 600 px.
+Интеграция со Spotify
+
+Размер обложки - 600 x 600 px
 
 [Демо](https://smolyakov.dev/playlists-generator/)
 

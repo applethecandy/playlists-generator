@@ -10,16 +10,27 @@ let token;
 if (token = window.localStorage.getItem('spotify_token')) {
     document.querySelector('.spotify-login').classList.add('hidden')
 
-    fetch('https://api.spotify.com/v1/me/playlists?limit=50&cliend_id=c8ec8ae5f24c40ffb37859696810752d&access_token=' + token)
+    getSpotifyPlaylists('https://api.spotify.com/v1/me/playlists?limit=50');
+}
+
+function getSpotifyPlaylists(url) {
+    fetch(url, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    })
         .then((response) => {
             return response.json();
         })
         .then((data) => {
-            if (data['error'] !== undefined) return window.localStorage.removeItem('spotify_token');
+            if (data['error'] !== undefined) {
+                document.querySelector('.spotify-login').classList.remove('hidden')
+                return window.localStorage.removeItem('spotify_token');
+            }
             let user = data.href.replace(/.*\/users\/(.*?)\/.*/, '$1');
-            console.log(data)
             let spotify_playlists = document.querySelector('.spotify');
             spotify_playlists.classList.remove('hidden');
+            console.log(data)
             data.items.forEach(e => {
                 if (e.owner.id == user) {
                     let playlist = document.createElement('p');
@@ -31,6 +42,9 @@ if (token = window.localStorage.getItem('spotify_token')) {
                     playlist.addEventListener('click', getSpotifyPlaylist)
                 }
             });
+            if (data.next !== null) {
+                getSpotifyPlaylists(data.next);
+            }
         });
 }
 
